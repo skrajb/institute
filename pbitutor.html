@@ -304,37 +304,7 @@ renderPunjabiExercises();
 
 
 
-if(!localStorage.getItem("pbiActivated")){
-window.location="activate.html";
-}
 
-async function checkPunjabiActivation(){
-
-const code = prompt("Enter Punjabi Tutor Activation Code");
-
-if(code === null){
-
-// user pressed cancel
-window.location = "activate.html";
-return;
-
-}
-
-const valid = await activateProduct(code,"PBI");
-
-if(valid){
-
-localStorage.setItem("pbiActivated","true");
-location.reload();
-
-}else{
-
-alert("Invalid Punjabi Tutor Code");
-checkPunjabiActivation();
-
-}
-
-}
 
 </script>
 
