@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" type="image/png" href="/icon.ico">
+	<style>
+	@media(max-width:768px){
+
+.layout{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+.layout{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:250px;
+flex-shrink:0;
+}
+
+
+.main{
+flex:1;
+padding:20px;
+
+}
+	.header img {
+    height: 60px;
+}
+.container{
+    width:100%;
+    max-width:1100px;
+    margin-left:0;
+    padding:25px;
+    background:white;
+    box-shadow:0 4px 20px rgba(0,0,0,0.1);
+    border-radius:10px;
+}
+	html, body {
+  height: 100%;
+  margin: 0;
+}
+nav { background: #00295f; padding: 10px 20px;}
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; }
+nav ul li { margin-right: 20px; }
+nav ul li a, nav ul li button { color: white; font-weight: bold; text-decoration: none; background: transparent; border: none; font-size: 16px; cursor: pointer; }
+nav ul li a:hover, nav ul li button:hover { color: #00295f; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Toggle Button Style */
+.toggle-btn {
+  background:#6c757d;
+  color:white;
+  border:none;
+  border-radius:6px;
+  padding:8px 14px;
+  cursor:pointer;
+  margin-top:10px;
+}
+.toggle-btn.active {
+  background:#b80000;
+}</style>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Test Page | Typing Exam Portal</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+
+
+
+</head>
+
+<body style="font-family:'Bookman old Style',serif;">
+<div class="layout">
+<script src="sidebar.js"></script>
+<div class="main">
+
+<button id="menuToggle">☰</button>
+
+
+<!-- ✅ RESULTS SECTION -->
+<section id="results" style="display:none;">
+ 
+
+    <!-- RIGHT: Test Results -->
+    <div style="flex:2; min-width:400px;">
+      <h2>Results</h2>
+      <table id="results-table" 
+             style="display:none; width:100%; border-collapse:collapse;">
+        <thead><tr><th width="50%">Metric</th><th width="50%">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Gross Characters</td><td id="gross-characters-value"></td></tr>
+          <tr><td>Wrong / Extra / Skipped Words</td><td id="wrong-extra-words-value"></td></tr>
+          <tr><td>Space Errors</td><td id="space-errors-value"></td></tr>
+          <tr><td>Error Characters</td><td id="error-characters-value"></td></tr>
+          <tr><td>Net Characters</td><td id="net-characters-value"></td></tr>
+          <tr><td>Gross Speed</td><td id="gross-speed-value"></td></tr>
+          <tr><td>Actual Gross Speed</td><td id="actual-gross-speed-value"></td></tr>
+          <tr><td>Time Taken</td><td id="time-spent-value"></td></tr>
+          <tr><td>Accuracy</td><td id="accuracy-percentage-value"></td></tr>
+          <tr><td>Backspace Count</td><td id="backspace-count-value"></td></tr>
+       
+          <tr id="notes-section" style="display:none;">
+            <td colspan="2">
+              <div id="results-notes" style="display:none;">
+                <div id="exam-note" style="margin-bottom:5px; color:#b80000;"></div>
+                <div id="pass-note" style="color:#0055b8;"></div>
+              </div>
+            </td>
+          </tr>
+          <tr id="button-row" style="display:none;">
+        
+          </tr>
+        </tbody>
+      </table>
+      <div id="error-section" style="margin-top:15px; display:none;">
+        <div id="error-highlight"></div>
+      </div>
+      <div id="saved-stats-container" style="margin-top:20px;"></div>
+    </div>
+
+</section>
+<!-- ✅ END RESULTS -->
+
+
+
+
+
+
+<main class="container">
+
+<section class="test-section" id="test-section">
+<center><h2>LONG PARAGRAPH TYPING TEST</h2></center>
+<label for="timerSelect">Select Test Time:</label>
+
+<select id="timerSelect">
+  <option value="600">10 Minutes</option>
+  <option value="900">15 Minutes</option>
+</select>
+
+  <div>
+    <div id="timer">Time: 10:00</div>
+   
+  </div><br>
+
+  <div id="test-area">
+	  <b>Reference Text</b>
+    <div id="reference-text" class="reference-outer">
+      <div id="paragraph" class="paragraph">Loading...</div>
+    </div>
+<b>Typing Text</b>
+    <textarea id="typing-input" placeholder="Start typing here..."
+              rows="4" class="typing-input" spellcheck="false" autofocus></textarea>
+  <!-- Backspace Toggle Button -->
+  <button id="disable-toggle" class="toggle-btn">
+    Disable Backspace: OFF
+  </button>
+   <div style="text-align:right;">
+  <button id="submit-btn" class="primary-btn">Submit Test</button>
+</div>
+  </div>
+  
+</section>
+</main>
+
+
+<!-- POPUPS -->
+<div id="time-over-popup" class="popup" style="display:none;">
+  <div class="popup-inner">
+    <p>Time is over. View results?</p>
+    <button id="popup-ok-btn" class="primary-btn">Yes</button>
+  </div>
+</div>
+
+<div id="no-input-popup" class="popup" style="display:none;">
+  <div class="popup-inner">
+    <p>No typed input detected.</p>
+    <button id="no-input-ok-btn" class="primary-btn">OK</button>
+  </div>
+</div>
+</div>
+  </div>
+<script src="parascript.js">
+</script><script>
+document.getElementById("practice-another-btn-2").addEventListener("click", function () {
+    window.location.href = "engtutor.html";
+});
+/* Demo text */
+document.getElementById("paragraph").innerText =
+"Typing practice improves speed and accuracy. Keep your eyes on the screen and maintain proper hand placement.";
+
+/* Elements */
+const typingInput = document.getElementById("typing-input");
+const toggleBtn = document.getElementById("disable-toggle");
+
+let backspaceDisabled = false;
+
+/* Toggle Button Click */
+toggleBtn.addEventListener("click", () => {
+  backspaceDisabled = !backspaceDisabled;
+
+  if (backspaceDisabled) {
+    toggleBtn.classList.add("active");
+    toggleBtn.textContent = "Disable Backspace: ON";
+  } else {
+    toggleBtn.classList.remove("active");
+    toggleBtn.textContent = "Disable Backspace: OFF";
+  }
+});
+
+/* Disable Backspace Logic */
+typingInput.addEventListener("keydown", function(e) {
+  if (backspaceDisabled && e.key === "Backspace") {
+    e.preventDefault();
+  }
+});
+
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" type="image/png" href="/icon.ico">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PSSSB Typing Test Speed & Accuracy Calculation</title>
+
+<style>
+body {
+  font-family: 'Bookman Old Style', serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  color: #222;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ===== HEADER/NAV (Same as Your Theme) ===== */
+nav {
+  background: #00295f;
+  padding: 10px 20px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  margin-right: 8px;
+}
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-size: 16px;
+  padding: 6px 0px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+nav ul li a:hover {
+  background: white;
+  color: #00295f;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.header img {
+  height: 60px;
+}
+
+/* ===== INTRO SECTION ===== */
+#exercises-intro {
+  text-align: center;
+  padding: 20px 10% 30px;
+  background: linear-gradient(to right, #fff, #f1f4ff);
+}
+#exercises-intro h1 {
+  font-size: 2.2rem;
+  color: #000;
+}
+#exercises-intro p {
+  font-size: 1.1rem;
+  color: #444;
+  max-width: 750px;
+  margin: 10px auto;
+  line-height: 1.6;
+}
+.highlight {
+  color: #00295f;
+}
+
+/* ===== CONTENT BOX ===== */
+.container {
+  max-width: 90%;
+  margin: 25px auto;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+h2 {
+  color: #00295f;
+  border-left: 4px solid #1f4fc1;
+  padding-left: 10px;
+}
+ul, ol {
+  margin-left: 18px;
+}
+.box {
+  background: #f5f7ff;
+  border-left: 4px solid #00295f;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 12px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+table th {
+  background: #00295f;
+  color: white;
+}
+footer {
+  margin-top: 30px;
+  text-align: center;
+  padding: 20px;
+  background: #00295f;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== REUSABLE HEADER LOADER ===== -->
+<head>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+<script src="sidebar.js"></script>
+
+</head>
+
+
+<script>
+
+
+// Disable keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Disable: F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+P
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && ["U","S","C","V","X","A","P"].includes(e.key.toUpperCase()))
+    ) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable copy / paste / cut
+["copy", "paste", "cut"].forEach(evt => {
+    document.addEventListener(evt, e => e.preventDefault());
+});
+// -------------------- Helper: Load paragraph from URL param --------------------
+
+ // ensure previous/next by keyboard: PageUp/PageDown
+  document.addEventListener('keydown', (e) => {
+
+    if (e.code === 'PageDown' || e.key === 'PageDown') { e.preventDefault(); if (currentChunkIndex < chunks.length-1) { currentChunkIndex++; renderChunk(); } }
+    if (e.code === 'PageUp' || e.key === 'PageUp') { e.preventDefault(); if (currentChunkIndex > 0) { currentChunkIndex--; renderChunk(); }
+	}
+  });
+      
+document.getElementById('typing-input').addEventListener('keydown', function(e) {
+    if (e.key === "Tab") {
+        e.preventDefault();
+    }
+});
+// Disable right click
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Disable keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Disable: F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+P
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && ["U","S","C","V","X","A","P"].includes(e.key.toUpperCase()))
+    ) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable copy / paste / cut
+["copy", "paste", "cut"].forEach(evt => {
+    document.addEventListener(evt, e => e.preventDefault());
+});
+
+
+</script>
+<div class="main">
+
+<button id="menuToggle">☰</button>
+
+
+<!-- ===== INTRO SECTION ===== -->
+<section id="exercises-intro">
+  <h1>How to Calculate Typing Speed & Accuracy for <span class="highlight">PSSSB Typing Exams</span></h1>
+  <p>
+    This page explains step-by-step how <strong>Gross Speed, Accuracy, and Net Typing Speed</strong> are calculated in
+    Government Typing Tests such as <strong>PSSSB Clerk / DEO Typing Exams</strong>.
+  </p>
+</section>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container">
+
+  <h2>1. What is a “Word” in Typing Tests?</h2>
+  <div class="box">
+    <strong>1 Word = 5 Characters (including spaces & punctuation)</strong>
+  </div>
+
+  <p><strong>Example:</strong> If you type 250 characters:</p>
+  <div class="box">
+    250 ÷ 5 = <strong>50 Words</strong>
+  </div>
+
+  <h2>2. Gross Typing Speed (WPM)</h2>
+  <p>Gross speed means typing speed without deducting mistakes.</p>
+
+  <div class="box">
+    <strong>Formula:</strong><br>
+    Gross WPM = (Total Characters Typed ÷ 5) ÷ Time in Minutes
+  </div>
+
+  <p><strong>Example:</strong></p>
+  <ul>
+    <li>Total Characters Typed = 1200</li>
+    <li>Time = 10 minutes</li>
+    <li>1200 ÷ 5 = 240 words</li>
+    <li>240 ÷ 10 = <strong>24 WPM</strong></li>
+  </ul>
+
+  <h2>3. Accuracy Calculation</h2>
+  <p>Mistakes include wrong words, missing words, spelling mistakes, punctuation errors, etc.</p>
+
+  <div class="box">
+    Accuracy % = (Correct Words ÷ Total Words Typed) × 100
+  </div>
+
+  <p><strong>Example:</strong></p>
+  <ul>
+    <li>Total Words = 240</li>
+    <li>Errors = 12</li>
+    <li>Correct Words = 240 − 12 = 228</li>
+    <li>Accuracy = (228 ÷ 240) × 100 = <strong>95%</strong></li>
+  </ul>
+
+  <h2>4. Net Typing Speed (Final WPM)</h2>
+  <p>This is the final valid speed after deducting mistakes.</p>
+
+  <div class="box">
+    Net WPM = Gross WPM − (Errors ÷ Time in Minutes)
+  </div>
+
+  <p><strong>Example:</strong></p>
+  <ul>
+    <li>Gross WPM = 24</li>
+    <li>Errors = 12</li>
+    <li>Time = 10 minutes</li>
+    <li>Errors per minute = 12 ÷ 10 = 1.2</li>
+    <li><strong>Net WPM = 24 − 1.2 = 22.8 WPM</strong></li>
+  </ul>
+
+</div>
+<footer>
+  © 2025 Smartech Education — All Rights Reserved
+</footer>
+</div>
+
+</body>
+</html>

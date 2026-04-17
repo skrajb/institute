@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smartech Exercise Manager</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+
+body{
+font-family:'Bookman Old Style',serif;
+background:#f8f9fa;
+margin:0;
+}
+
+.container{
+width:90%;
+margin:30px auto;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.15);
+margin-bottom:20px;
+}
+
+.card h2{
+color:#00295f;
+border-left:6px solid #00295f;
+padding-left:10px;
+}
+
+textarea,input{
+width:100%;
+padding:8px;
+margin-top:6px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:8px;
+padding:8px 14px;
+border:none;
+background:black;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#00295f;
+}
+
+.delete-btn{
+background:#d40000;
+}
+
+.delete-btn:hover{
+background:#9b0000;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+<script src="sidebar.js"></script>
+
+<script>
+
+if(!localStorage.getItem("softwareActivated")){
+    
+    // Option 1: Redirect to activation page
+    window.location.href = "activate.html";
+
+}
+
+</script>
+</head>
+<script>
+if(!localStorage.getItem("softwareActivated")){
+alert("Please activate Main Software to access Exercise Manager");
+window.location.href = "activation.html"; // redirect page
+}
+</script>
+<body>
+<div class="main">
+
+<button id="menuToggle">☰</button>
+<div class="container">
+
+<div class="card">
+<h2>Manage Exercises</h2>
+
+
+<br><br>
+
+<input type="text" id="exerciseFileUrl"
+value="https://raw.githubusercontent.com/skrajb/App/refs/heads/main/addexercises.txt">
+
+<button onclick="loadExercisesFromUrl()">Import Exercises from URL</button>
+
+<br><br>
+
+<button class="delete-btn" onclick="deleteAllExercises()">Delete All Exercises</button>
+
+</div>
+
+<div class="card">
+<h2>English Exercises</h2>
+<div id="exerciseListEnglish"></div>
+</div>
+
+<div class="card">
+<h2>Punjabi Exercises</h2>
+<div id="exerciseListPunjabi"></div>
+</div>
+
+</div>
+
+<script>
+
+/* Load saved exercises */
+
+let exercisesEnglish =
+JSON.parse(localStorage.getItem('exercisesEnglish')) || [];
+
+let exercisesPunjabi =
+JSON.parse(localStorage.getItem('exercisesPunjabi')) || [];
+
+
+/* Render Exercises */
+
+function renderExercises(lang){
+
+const box = lang==="English"
+? document.getElementById("exerciseListEnglish")
+: document.getElementById("exerciseListPunjabi");
+
+const list = lang==="English"
+? exercisesEnglish
+: exercisesPunjabi;
+
+box.innerHTML = list.map((e,i)=>`
+<div class="card">
+<b>${i+1}. ${e.title}</b>
+<p>${e.text.slice(0,120)}...</p>
+<button class="delete-btn"
+onclick="deleteExercise(${i},'${lang}')">
+Delete
+</button>
+</div>
+`).join("");
+
+}
+
+
+/* Delete single exercise */
+
+function deleteExercise(index,lang){
+
+let list = lang==="English"
+? exercisesEnglish
+: exercisesPunjabi;
+
+list.splice(index,1);
+
+localStorage.setItem(
+'exercisesEnglish',
+JSON.stringify(exercisesEnglish)
+);
+
+localStorage.setItem(
+'exercisesPunjabi',
+JSON.stringify(exercisesPunjabi)
+);
+
+renderExercises("English");
+renderExercises("Punjabi");
+
+}
+
+
+/* Delete all exercises */
+
+function deleteAllExercises(){
+
+exercisesEnglish=[];
+exercisesPunjabi=[];
+
+localStorage.removeItem('exercisesEnglish');
+localStorage.removeItem('exercisesPunjabi');
+
+renderExercises("English");
+renderExercises("Punjabi");
+
+}
+
+
+/* Load exercises from URL */
+
+async function loadExercisesFromUrl(){
+
+const url=document.getElementById("exerciseFileUrl").value;
+
+const response=await fetch(url);
+const text=await response.text();
+
+const sections=text.split(/###/).filter(Boolean);
+
+/*exercisesEnglish=[];
+exercisesPunjabi=[];
+*/
+sections.forEach(section=>{
+
+const langMatch=section.match(/(English|Punjabi)/i);
+
+if(!langMatch) return;
+
+const lang=langMatch[1];
+
+const exercises=section.split(/---/).filter(t=>t.trim());
+
+for(let i=0;i<exercises.length;i+=2){
+
+const title=exercises[i].trim();
+const content=exercises[i+1]||"";
+
+if(lang==="English"){
+exercisesEnglish.push({title,text:content});
+}else{
+exercisesPunjabi.push({title,text:content});
+}
+
+}
+
+});
+
+localStorage.setItem('exercisesEnglish',JSON.stringify(exercisesEnglish));
+localStorage.setItem('exercisesPunjabi',JSON.stringify(exercisesPunjabi));
+
+renderExercises("English");
+renderExercises("Punjabi");
+
+}
+
+
+/* Upload file */
+
+function loadExercisesFromFile(){
+
+const file=document.getElementById("exerciseFile").files[0];
+
+if(!file) return alert("Select file");
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+exercisesEnglish.push({
+title:"Imported Exercise",
+text:e.target.result
+});
+
+localStorage.setItem(
+'exercisesEnglish',
+JSON.stringify(exercisesEnglish)
+);
+
+renderExercises("English");
+
+};
+
+reader.readAsText(file);
+
+}
+
+
+/* Initial render */
+
+renderExercises("English");
+renderExercises("Punjabi");
+
+</script>
+</div>
+</body>
+</html>

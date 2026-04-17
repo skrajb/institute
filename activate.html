@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smartech Software Activation</title>
+
+<script src="activation.js"></script>
+
+<style>
+
+body{
+font-family:'Bookman Old Style',serif;
+background:#f8f9fa;
+margin:0;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+}
+
+.header img{
+height:70px;
+}
+
+/* NAVBAR */
+
+nav{
+background:#00295f;
+padding:10px 20px;
+}
+
+nav ul{
+list-style:none;
+margin:0;
+padding:0;
+display:flex;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+margin:0 12px;
+font-size:16px;
+font-weight:bold;
+padding:6px 10px;
+border-radius:6px;
+}
+
+nav ul li a:hover{
+background:white;
+color:#00295f;
+}
+
+/* MAIN AREA */
+
+.container{
+width:90%;
+max-width:900px;
+margin:40px auto;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.card h2{
+text-align:center;
+color:#00295f;
+margin-bottom:30px;
+}
+
+/* ACTIVATION BOX */
+
+.activation-box{
+border:1px solid #eee;
+border-radius:10px;
+padding:20px;
+margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.title{
+font-size:18px;
+font-weight:bold;
+color:#00295f;
+}
+
+.status{
+font-weight:bold;
+margin-top:5px;
+}
+
+.active{
+color:green;
+}
+
+.inactive{
+color:red;
+}
+
+/* INPUT */
+
+input{
+padding:10px;
+font-size:16px;
+border:2px solid #00295f;
+border-radius:6px;
+width:220px;
+margin-right:10px;
+}
+
+/* BUTTON */
+
+button{
+background:#00295f;
+color:white;
+border:none;
+padding:10px 18px;
+font-size:15px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:black;
+}
+
+</style>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+<script src="sidebar.js"></script>
+
+</head>
+
+<body>
+
+
+<div class="main">
+
+<button id="menuToggle">☰</button>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Software Activation Panel</h2>
+
+
+<div class="activation-box">
+<div>
+<div class="title">English Typing Tutor</div>
+<div id="englishStatus" class="status inactive">Not Activated</div>
+</div>
+
+<div>
+<input id="englishCode" placeholder="Enter Activation Code">
+<button onclick="activateEnglish()">Activate</button>
+</div>
+</div>
+
+<div class="activation-box">
+<div>
+<div class="title">Punjabi Typing Tutor</div>
+<div id="punjabiStatus" class="status inactive">Not Activated</div>
+</div>
+
+<div>
+<input id="punjabiCode" placeholder="Enter Activation Code">
+<button onclick="activatePunjabi()">Activate</button>
+</div>
+</div>
+<!--<div class="activation-box">
+<div>
+<div class="title">Exercise Manager</div>
+<div id="softwareStatus" class="status inactive">Not Activated</div>
+</div>
+
+<div>
+<input id="softwareCode" placeholder="Enter Activation Code">
+<button onclick="activateSoftware()">Activate</button>
+</div>
+</div>-->
+<p style="color:red;";><b>*Before Accessing the English, Punjabi Typing Tutor and Exercise Manager you have to Activate it using Activation codes.</b></p>
+
+</div>
+
+</div>
+</div>
+
+<script>
+(function(_0x216652,_0x16d6c0){const _0x15cdcf=_0x9c5c,_0x134b06=_0x216652();while(!![]){try{const _0x482afc=-parseInt(_0x15cdcf(0x110))/0x1*(-parseInt(_0x15cdcf(0x107))/0x2)+parseInt(_0x15cdcf(0x104))/0x3+parseInt(_0x15cdcf(0xff))/0x4*(-parseInt(_0x15cdcf(0xfc))/0x5)+-parseInt(_0x15cdcf(0xfe))/0x6*(-parseInt(_0x15cdcf(0x10e))/0x7)+-parseInt(_0x15cdcf(0x106))/0x8+parseInt(_0x15cdcf(0x10c))/0x9+parseInt(_0x15cdcf(0x100))/0xa;if(_0x482afc===_0x16d6c0)break;else _0x134b06['push'](_0x134b06['shift']());}catch(_0x4af68b){_0x134b06['push'](_0x134b06['shift']());}}}(_0x3c99,0xedfbb));function _0x9c5c(_0x302a09,_0x5c8d37){_0x302a09=_0x302a09-0xfc;const _0x3c993d=_0x3c99();let _0x9c5cf5=_0x3c993d[_0x302a09];return _0x9c5cf5;}function checkStatus(){const _0x49cbaa=_0x9c5c;localStorage['getItem'](_0x49cbaa(0x10f))&&(document[_0x49cbaa(0x112)](_0x49cbaa(0x111))[_0x49cbaa(0x102)]=_0x49cbaa(0x105),document[_0x49cbaa(0x112)](_0x49cbaa(0x111))[_0x49cbaa(0x115)]=_0x49cbaa(0xfd)),localStorage['getItem'](_0x49cbaa(0x10d))&&(document[_0x49cbaa(0x112)](_0x49cbaa(0x108))[_0x49cbaa(0x102)]='Activated',document[_0x49cbaa(0x112)](_0x49cbaa(0x108))['className']='status\x20active');}checkStatus();async function activateEnglish(){const _0x360bec=_0x9c5c,_0x34e3a3=document[_0x360bec(0x112)](_0x360bec(0x10b))[_0x360bec(0x109)],_0x3c63b3=await activateProduct(_0x34e3a3,_0x360bec(0x114));_0x3c63b3?(localStorage['setItem'](_0x360bec(0x10f),'true'),location['reload']()):alert(_0x360bec(0x101));}function _0x3c99(){const _0x190209=['pbiActivated','7zCWXWg','engActivated','22PiGPrM','englishStatus','getElementById','reload','ENG','className','1390ftesYG','status\x20active','426282DWoXuO','20744OGJvpb','11987030UoPjUS','Invalid\x20Code','innerHTML','true','1421214wjQWPg','Activated','8116736tCxDZm','137378NqMRdk','punjabiStatus','value','PBI','englishCode','1587897XhCkIZ'];_0x3c99=function(){return _0x190209;};return _0x3c99();}async function activatePunjabi(){const _0x3b1d85=_0x9c5c,_0x677ef=document['getElementById']('punjabiCode')[_0x3b1d85(0x109)],_0x4cf096=await activateProduct(_0x677ef,_0x3b1d85(0x10a));_0x4cf096?(localStorage['setItem'](_0x3b1d85(0x10d),_0x3b1d85(0x103)),location[_0x3b1d85(0x113)]()):alert(_0x3b1d85(0x101));}
+
+</script>
+</div>
+</body>
+</html>

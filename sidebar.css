@@ -1,0 +1,121 @@
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:-260px;
+top:0;
+width:260px;
+height:100%;
+background:#00295f;
+color:white;
+transition:0.4s;
+padding-top:20px;
+z-index:9999;
+box-shadow:4px 0 20px rgba(0,0,0,0.2);
+overflow-y:auto;
+}
+
+/* open sidebar */
+.sidebar.active{
+left:0;
+}
+
+/* logo */
+.sidebar .logo{
+font-size:20px;
+font-weight:bold;
+text-align:center;
+margin-bottom:30px;
+}
+
+/* menu */
+.sidebar ul{
+list-style:none;
+padding:0;
+margin:0;
+}
+
+.sidebar ul li{
+margin:5px 0;
+}
+
+/* links */
+.sidebar ul li a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+font-size:16px;
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+
+/* hover animation */
+.sidebar ul li a:hover{
+background:white;
+color:#00295f;
+padding-left:30px;
+}
+
+/* animation effect */
+.sidebar ul li a::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:0;
+background:#ffffff22;
+transition:0.3s;
+}
+
+.sidebar ul li a:hover::before{
+width:100%;
+}
+
+/* toggle button */
+
+#menuToggle{
+position:fixed;
+top:15px;
+left:10px;
+font-size:24px;
+background:#00295f;
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:6px;
+cursor:pointer;
+z-index:9999;
+}
+
+/* move page when sidebar opens */
+
+.main{
+transition:0.4s;
+margin-left:0;
+}
+
+.sidebar.active ~ .main{
+margin-left:260px;
+}
+
+.sidebar-header{
+text-align:center;
+padding:20px 10px;
+border-bottom:1px solid rgba(255,255,255,0.2);
+margin-bottom:15px;
+}
+
+.sidebar-logo{
+width:80px;
+height:auto;
+margin-bottom:8px;
+}
+
+.logo-text{
+font-size:18px;
+font-weight:bold;
+color:white;
+}

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+<meta charset="utf-8" />
+	<meta name="google-adsense-account" content="ca-pub-3468699928896150">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Smartech Education</title>
+	  <link rel="stylesheet" href="styles.css" />
+<style>
+ :root{
+    --bg:#f7f8fb; --card:#fff; --accent:#00295f; --muted:#6b7280;
+    --green:#1f9d55; --red:#e03d3d; --blue:#2563eb;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:Inter, "Bookman old Style", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    margin:0; background:var(--bg); color:#111;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+
+  header{
+    padding:22px 28px; display:flex; align-items:center; justify-content:space-between;
+    background:linear-gradient(90deg,#fff,#f2f4f8); border-bottom:1px solid rgba(0,0,0,0.04);
+  }
+  header h1{margin:0; font-size:20px; color:#00295f; letter-spacing:0.2px}
+  header p{margin:0; color:var(--muted); font-size:13px}
+
+  main{max-width:1100px;margin:28px auto;padding:0 20px}
+
+  /* LESSON GRID */
+  #lessonGrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:22px}
+  .lessonBtn{
+    background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(16,24,40,0.06);
+    border:1px solid rgba(2,41,95,0.04); cursor:pointer; text-align:center;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .lessonBtn:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(16,24,40,0.08)}
+  .lessonBtn h3{margin:0;color:#00295f;font-size:16px}
+  .lessonBtn p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+  /* TEST AREA */
+  #testArea{display:none; margin-top:10px}
+  .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .btn{background:#00295f;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+  .btn.ghost{background:transparent;color:#00295f;border:1px solid rgba(2,41,95,0.12)}
+  .meta{color:var(--muted);font-size:13px}
+
+  .card{
+    background:var(--card); border-radius:12px; padding:18px; box-shadow:0 8px 30px rgba(16,24,40,0.06);
+    border:1px solid rgba(2,41,95,0.04);
+  }
+
+  /* text display */
+  #textDisplay{min-height:140px; padding:14px;border-radius:8px;border:1px dashed rgba(0,0,0,0.06);
+    font-size:20px; line-height:1.7; font-family:Arial; white-space:pre-wrap; word-break:break-word;
+    background:linear-gradient(180deg,#fff,#fbfdff);
+  }
+
+  /* character spans */
+  #textDisplay .ch{border-radius:2px;}
+  #textDisplay .current{background-color:gold; box-shadow:0 2px 0 rgba(0,0,0,0.06); font-size:20px; font-weight:bold;}
+  #textDisplay .correct{background:transparent; color:var(--green); font-weight:600}
+  #textDisplay .incorrect{background:transparent; color:var(--red); font-weight:600}
+  #textDisplay .space{display:inline-block; min-width:8px; border-bottom:1px dashed rgba(0,0,0,0.03)}
+
+  /* flash animation when wrong pressed */
+  @keyframes flashRed {
+    0%{background:rgba(224,61,61,0.14)}
+    100%{background:transparent}
+  }
+  .flash { animation: flashRed .45s ease; }
+
+  /* stats */
+  .statsGrid{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
+  .stat{background:#fff;padding:10px 12px;border-radius:10px;box-shadow:0 6px 20px rgba(16,24,40,0.03);font-size:14px}
+  .stat strong{display:block;color:#00295f;font-size:15px}
+
+  /* results area */
+  #results{margin-top:16px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid rgba(2,41,95,0.03)}
+  #results h4{margin:0 0 8px;color:#00295f}
+  #results p{margin:4px 0;color:var(--muted);font-size:14px}
+
+  /* back button */
+  .backLink{display:inline-flex;align-items:center;gap:8px;color:#00295f;cursor:pointer;font-weight:600;margin-bottom:8px}
+
+  @media(max-width:640px){
+    #textDisplay{font-size:18px}
+  }
+  .header {display:flex;justify-content:space-between;align-items:center;padding:15px 40px;animation:fadeDown 1s ease;}
+.header img{height:60px;}
+
+	#fullscreenBtn {
+  background: white;
+  color: Black;
+  border-radius: 5px;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#fullscreenBtn:hover {
+  background: #0056b3;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+ 
+  flex-direction: column;
+  min-height: 100vh;
+}
+.exercise-btn{
+background:#00295f;
+color:white;
+border:none;
+padding:12px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+width:150px;
+height:60px;
+margin:5px;
+font-size:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.exercise-btn:hover{
+background:black;
+}
+.speed-btn{
+display:inline-block;
+background:#00295f;
+color:white;
+padding:12px 28px;
+border-radius:8px;
+font-weight:bold;
+text-decoration:none;
+font-size:16px;
+transition:0.3s;
+}
+
+.speed-btn:hover{
+background:black;
+transform:translateY(-2px);
+}
+</style>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+<script src="sidebar.js"></script>
+</head>
+
+<body>
+<div class="main">
+
+<button id="menuToggle">☰</button>
+<header>
+  <div>
+    <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Punjabi Typing Tutor</h1>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strict letter-by-letter tutor — you must type the correct letter to advance.</p>
+  </div>
+  <div class="meta">Smartech Education</div>
+</header>
+<!-- WRAPPED EXTRA CONTENT -->
+
+  <hr style="margin:40px 0">
+<main>
+  <section id="lessonsSection">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h2 style="margin:0">Choose a Lesson</h2>
+      <div class="meta">Pick any lesson to begin — tests use random words from the lesson.</div>
+    </div>
+    <div id="lessonGrid" aria-label="lessons grid"></div>
+  </section>
+
+  <section id="testArea">
+    <div class="backLink" id="backToLessons" title="Back to lessons">← Back to lessons</div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <h3 id="lessonTitle" style="margin:0;color:#00295f	"></h3>
+          <div class="meta" id="lessonSubtitle"></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button id="restartBtn" class="btn ghost">Restart Lesson</button>
+          
+        </div>
+      </div>
+
+
+      <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,0.04)">
+
+      <div id="textDisplay" aria-live="polite" tabindex="0"></div>
+
+      <div class="statsGrid" style="margin-top:12px">
+        <div class="stat"><strong id="time">00:00</strong><small>Time</small></div>
+        <div class="stat"><strong id="correctCount">0</strong><small>Correct chars</small></div>
+        <div class="stat"><strong id="wrongCount">0</strong><small>Wrong hits</small></div>
+        <div class="stat"><strong id="accuracy">0%</strong><small>Accuracy</small></div>
+        <div class="stat"><strong id="wpm">0</strong><small>WPM</small></div>
+      </div>
+
+      <div id="results" style="display:none">
+        <h4>Result</h4>
+        <p id="finalSummary">Complete the test to see results here.</p>
+      </div>
+    </div>
+  </section>
+  <div id="extraSections">
+  
+	
+	<table width=100%><td>
+   <section id="speedTestLink" style="margin:40px 0;text-align:center;">
+
+  <h2 style="color:#00295f;">Punjabi Speed Test</h2>
+
+  <p style="color:#555;margin-bottom:15px;">
+    Test your typing speed and accuracy<br> before starting practice exercises.
+  </p>
+
+  <a href="punjabi_tutor.html" class="speed-btn">
+    Start Speed Test
+  </a>
+
+</section>	</td>
+<td>
+ <section id="speedTestLink" style="margin:40px 0;text-align:center;">
+
+  <h2 style="color:#00295f;">Special Long Paragraph </h2>
+
+  <p style="color:#555;margin-bottom:15px;">
+    Long Paragraph Practice Exercies 
+  </p>
+
+  <a href="pbiexercises.html" class="speed-btn">
+    Spacial Long Practice Exercises 
+  </a>
+
+</section></td></table>
+
+  <hr style="margin:40px 0">
+
+<section id="practicePunjabi">
+
+<h2 style="color:#00295f">Punjabi Exercises Practice with Chunk</h2>
+
+<div id="exerciseListPunjabi" style="
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:15px;
+"></div>
+</div>
+</section>
+</main>
+
+<!-- Hidden textarea to capture IME / composed input reliably -->
+<textarea id="capture" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+  style="position:absolute;left:-9999px;top:auto;opacity:0;" aria-hidden="true"></textarea>
+<script src="activation.js"></script>
+
+<script>
+let exercisesPunjabi = JSON.parse(localStorage.getItem('exercisesPunjabi')) || [];
+
+function renderPunjabiExercises(){
+
+const container = document.getElementById("exerciseListPunjabi");
+
+if(!container) return;
+
+container.innerHTML = exercisesPunjabi.length === 0
+? "<p>No exercises available</p>"
+: exercisesPunjabi.map((ex,i)=>`
+
+<button class="exercise-btn"
+onclick="startPunjabiExercise('${encodeURIComponent(ex.text)}')">
+
+${i+1}. ${ex.title}
+
+</button>
+
+`).join("");
+
+}
+
+function startPunjabiExercise(text){
+
+localStorage.setItem("selectedExerciseText",decodeURIComponent(text));
+localStorage.setItem("selectedExerciseLanguage","Punjabi");
+
+window.location.href="testpage.html";
+
+}
+
+renderPunjabiExercises();
+
+
+
+if(!localStorage.getItem("pbiActivated")){
+window.location="activate.html";
+}
+
+async function checkPunjabiActivation(){
+
+const code = prompt("Enter Punjabi Tutor Activation Code");
+
+if(code === null){
+
+// user pressed cancel
+window.location = "activate.html";
+return;
+
+}
+
+const valid = await activateProduct(code,"PBI");
+
+if(valid){
+
+localStorage.setItem("pbiActivated","true");
+location.reload();
+
+}else{
+
+alert("Invalid Punjabi Tutor Code");
+checkPunjabiActivation();
+
+}
+
+}
+
+</script>
+
+
+	<script>
+	
+(() => {
+  const lessons = {
+    lesson1: ["ਪਰ","ਕਰ","ਤਕ","ਤਪ","ਚੋਰ","ਪਰਤ","ਪਰਕੋ","ਕਰੋ","ਰੋਕ","ਰੇਤ","ਚੇਤ","ਰੋਚਕ","ਰੋਕੋ","ਕਿ","ਰੁਤ","ਚਤਰ","ਰਕਤ","ਚੇਤਕ","ਕਿਰਤ","ਚਿਪਕ","ਪਰਕ","ਟਚ","ਟਿਕ","ਰਿਕਤ","ਪਰਕ","ਰਿਪੋਰਟ","ਚੋਕਰ","ਟੋਰਚ","ਚਰਚ","ਟਿਕਟ","ਤੁਰ","ਚਟਪਟ","ਕੋਟ","ਕਿਕ","ਟੇਪ"],
+    lesson2: ["ਕਪ","ਹਦ","ਦਾਤਾ","ਹਾਜਰ","ਜਾਗਰ","ਕੌਰ","ਡੋਰ","ਡੀ","ਡੋਗਰ","ਗਤੀ","ਬਚੀ","ਦੀਪ","ਬਾਹੀ","ਹਿਪ","ਬਾਜੀ","ਦਰਜੀ","ਦੀਪਕ","ਪਿਤਾ","ਤੋਤਾ","ਪੋਤੀ","ਦੂਰੀ","ਦੁਹਰੀ","ਬੋਰਡ","ਪੈਰ","ਜੇਬ","ਗੌਦ","ਪੌਦਾ","ਜਦ","ਟੋਟਾ","ਬਾਡੀਗਾਰਡ","ਗੌਰੀ","ਜਾਦੂਗਰ","ਗਰਾਹਕ","ਦਾਦੀ","ਦਰਦ","ਗਦਰ","ਡਰਪੋਕ","ਪੀਰ","ਪਰਬਤ","ਬਰਾਬਰ","ਜੇਕਰ","ਹੀਰਾ","ਗਿਟਾਰ","ਕਿਤਾਬ","ਗੈਰ","ਦਰਗਾਹ","ਗਰੀਬ","ਪਾਰਟੀ","ਬਗਦਾਦ","ਗਰਾਹੀ","ਰੁਤਬਾ","ਚਾਰਜ","ਜਾਗਰੂਕਤਾ","ਡਾਕੂ","ਚਾਕੂ","ਬੋਰੀ"],
+    lesson3: ["ਨਾਲ","ਵੀ","ਵਿਚ","ਰਕਮ","ਚੰਦਾ","ਰੂਪ","ਲਿਵਾਸ","ਮਾਨਵ","ਹੀਰਾ","ਮਕਾਨ","ਕਿਰਨ","ਕਿਸੇ","ਸਲਾਹ","ਵੋਟ","ਮਾਨ","ਮਹਾਨ","ਹਿਸਾਬ","ਹੁਕਮ","ਸਕਦਾ","ਵਿਚਾਰ","ਹਿੰਦ","ਵੀਰ","ਵੀਰਤਾ","ਪੰਜਾਬੀ","ਨੀਯਤ","ਬੁਲਟ","ਕਾਹਲੀ","ਵਾਦੀ","ਸਰਕਾਰ","ਚਮਤਕਾਰ","ਨਮੂਨਾ","ਸਲਾਦ","ਮਹਿਕ","ਯੋਜਨਾ","ਕੀਮਤ","ਮੋਹਿਤ","ਜਯ","ਪੰਜ","ਵਿਕਾਸ","ਸਪੀਕਰ","ਵਹਿਮ","ਸਤਿਕਾਰ","ਸਮਾਜ","ਸਹੂਲਤ","ਸੰਪਰਕ","ਸੈਮ","ਸੰਗ","ਹਰਮਨ","ਮਹਿਸੂਸ","ਰੁਕਾਵਟ","ਸਮੂਹ","ਪੰਡਿਤ","ਜੀਵਨ","ਸਨਮਾਨਿਤ","ਕੂਲਰ","ਬਿਜਲੀ","ਬੰਦੂਕ","ਤਾਪਮਾਨ","ਮੌਸਮ","ਸਰੀਰਕ","ਹੈਰਾਨੀ","ਜਨਕ","ਸੰਕਟ","ਦੇਵਤਾ","ਪਰਯੋਗ","ਮੁਕਾ","ਬਲਾ","ਸੈਲੰਡਰ","ਸਮੌਸਾ"],
+	lesson4: ["ਪਰ","ਕਰ","ਨਾਲ","ਵੀ","ਕਪ","ਹਦ","ਰਕਮ","ਚੋਰ","ਦੀਪ","ਮਕਾਨ","ਤਕ","ਤਪ","ਦਾਤਾ","ਹਾਜਰ","ਚੰਦਾ","ਰੂਪ","ਕਿਰਨ","ਸਲਾਹ","ਵੋਟ","ਮਾਨ","ਪਰਤ","ਪਰਕੋ","ਕਰੋ","ਜਾਗਰ","ਕੌਰ","ਲਿਵਾਸ","ਮਾਨਵ","ਹੀਰਾ","ਮਹਾਨ","ਹੁਕਮ","ਰੋਕ","ਰੇਤ","ਚੇਤ","ਡੋਰ","ਡੀ","ਡੋਗਰ","ਸਕਦਾ","ਵਿਚਾਰ","ਹਿੰਦ","ਵੀਰ","ਰੋਚਕ","ਰੋਕੋ","ਕਿ","ਗਤੀ","ਬਚੀ","ਦੀਪਕ","ਵੀਰਤਾ","ਪੰਜਾਬੀ","ਨੀਯਤ","ਬੁਲਟ","ਰੁਤ","ਚਤਰ","ਰਕਤ","ਬਾਹੀ","ਹਿਪ","ਬਾਜੀ","ਕਾਹਲੀ","ਵਾਦੀ","ਸਰਕਾਰ","ਚਮਤਕਾਰ","ਚੇਤਕ","ਕਿਰਤ","ਚਿਪਕ","ਦਰਜੀ","ਪਿਤਾ","ਤੋਤਾ","ਨਮੂਨਾ","ਸਲਾਦ","ਮਹਿਕ","ਯੋਜਨਾ","ਪਰਕ","ਟਚ","ਟਿਕ","ਪੋਤੀ","ਦੂਰੀ","ਦੁਹਰੀ","ਕੀਮਤ","ਮੋਹਿਤ","ਪੰਜ","ਵਿਕਾਸ","ਰਿਕਤ","ਪਰਕ","ਰਿਪੋਰਟ","ਬੋਰਡ","ਪੈਰ","ਜੇਬ","ਸਪੀਕਰ","ਵਹਿਮ","ਸਤਿਕਾਰ","ਸਮਾਜ","ਚੋਕਰ","ਟੋਰਚ","ਚਰਚ","ਗੌਦ","ਪੌਦਾ","ਜਦ","ਸਹੂਲਤ","ਸੰਪਰਕ","ਸੰਗ","ਹਰਮਨ","ਟਿਕਟ","ਤੁਰ","ਚਟਪਟ","ਟੋਟਾ","ਬਾਡੀਗਾਰਡ","ਗੌਰੀ","ਮਹਿਸੂਸ","ਰੁਕਾਵਟ","ਸਮੂਹ","ਪੰਡਿਤ","ਕੋਟ","ਕਿਕ","ਟੇਪ","ਜਾਦੂਗਰ","ਗਰਾਹਕ","ਦਾਦੀ","ਜੀਵਨ","ਸਨਮਾਨਿਤ","ਕੂਲਰ","ਬਿਜਲੀ","ਦਰਦ","ਗਦਰ","ਡਰਪੋਕ","ਬੰਦੂਕ","ਤਾਪਮਾਨ","ਮੌਸਮ","ਸਰੀਰਕ","ਸੰਕਟ","ਦੇਵਤਾ","ਪਰਯੋਗ"
+],
+    lesson5: ["ਠਪ","ਟਪ","ਤੜ","ਫੜ","ਅੜ","ਏਕ","ਓਮ","ਉਕਤ","ਏਕਤਾ","ਠਰ","ਛਟ","ਥੂੜ","ਖੜਕ","ਰੜਕ","ਰਬੜ","ਇਟ","ਪੁਰਖ","ਛਪਰ","ਇਤਰ","ਕੜਕ","ਅਰਕ","ਕਾਰ","ਉਰਫ","ਰੋਕੜ","ਇਮਲੀ","ਸਥਿਰ","ਸਥਾਨ","ਕਥਨ","ਖਿੜਕੀ","ਜਕੜ","ਉਚਿਚਤਾ","ਅਸੀ","ਏਜੰਸੀ","ਇਮਤਿਹਾਨ","ਸੜਕ","ਠੇਲਾ","ਓਕੜ","ਲੜਕੀ","ਅਨਮੋਲ","ਖਤਰਨਾਕ","ਛੂਤਛਾਤ","ਖੰਡਰ","ਸੈਲੰਡਰ","ਪਦਾਰਥ","ਸੁਖਾਲਾ","ਵਿਅਕਤੀ","ਏਥਿਕਸ","ਫੈਲਾਉ","ਉਬਾਲ","ਚੌਥੀ","ਥਿੰਦਾ","ਮੁਖਤਾਰ","ਅਫਵਾਹ","ਉਬਾਲ","ਫੈਸਲਾ","ਠੰਡਕ"],
+    lesson6: ["ਔਕੜ","ਆਰੀ","ਈਰਖਾ","ਧੋਬੀ","ਆਖੇ","ਆੜੂ","ਝਾੜੂ","ਝਗੜਾ","ਢਾਈ","ਭਗਤ","ਭਰਾ","ਢਾਕਾ","ਐਨਕ","ਆਈ","ਘੜਾ","ਕਿੰਞ","ਘਰਾਚੋ","ਘੜੀ","ਥਿੰਦਾ","ਔਰਤ","ਘਾਉ","ਐਗਰੀ","ਥੈਲਾ","ਘਗਰ","ਊਜ","ਇੰਞ","ਬਾਊ","ਬਾਈ","ਉਚਿਚਤਾ","ਭੌਲਾ","ਧੀਰਜ","ਧੰਨਵਾਦ","ਵੰਝਲੀ","ਘੋੜਾ","ਢੂੰਡ","ਈਦ","ਊਰਜਾ","ਊਠ","ਢੋਲ","ਔਜਾਰ","ਆਦਮੀ","ਧਰਤੀ"],
+    lesson7: ["ਘੇਰਦਾ","ਞਤਨ","ਖਿੰਘਰ","ਡਾਕਘਰ","ਕੰਙਲ","ਝੰਜੋੜ","ਲੰਬਾਈ","ਸੁਭਾਅ","ਸੁਧੀਰ","ਧਮਾਕਾ","ਆਦਤ","ਸੰਙ","ਪਿਘਲ","ਆਗਰਾ","ਪਿਛੌਕੜ","ਘੁਮਿਆਰ","ਈਨਾਮ","ਈਕਾਈ","ਘੌਲ","ਊਚਾਈ","ਢੋਲਕ","ਮਾਂ","ਛਾਂ","ਜਾਂ","ਝਾਵਾਂ","ਇਟਾਂ","ਵਾਂਝਾ","ਛਣ","ਪੌਣ","ਪਾਣੀ","ਸ਼ੰਖ","ਨਮਕ","ਖਣਜ","ਮਾਣਕ","ਮੰਨਣਾ","ਲਕਸ਼","ਗਿਣਤੀ","ਸ਼ਲਗਮ","ਸ਼ੌਰ","ਯੂਨੀਕੋਡ","ਲਿਸ਼ਕਾਰਾ","ਇਲਾਵਾ","ਨਿਰਮਾਣ","ਵਿਸ਼ਵਾਸ","ਉਂਗਲਾਂ","ਓਨਾਂ","ੲਰਾਦਾ","ਲੌਂਗ","ੲਨਸਾਨ","ਪਹਿਚਾਣ","ਕਠਣਾਈ","ਦੁਗਣੀ","ਗੁਣਾ","ਸ਼ਹਿਦ","ਦਿਸ਼ਾ","ਹੋਸ਼","ਦਹਿਸ਼ਤ","ਬੁਰਸ਼","ਪੁਣਛਾਣ","ਊਣਾਂ","ਸ਼ਿਫਟ","ਊਂਙਣਾ","ਸ਼ੁਧ","ਸਿਆਣਪ","ਇੰਜਣ","ਸ਼ਬਦ","ਸ਼ਰਧਾ","ਖੇਡਾਂ","ਸ਼ਕਤੀ","ਦੂਸ਼ਿਤ","ੲਮਤਿਹਾਨ","ਸ਼ੁਰੂਆਤ","ਮਹਾਂਭਾਰਤ","ਨਾਲ਼","ਜਾਂਚ","ਤਮਾਸ਼ਾ","ਇਸ਼ਨਾਨ","ਸਕੋਲਰਸ਼ਿਪ","ਹੌਲ਼ੀ","ਲ਼ਕੜੀ","ੲਮਾਨਦਾਰ","ੲਤਿਹਾਸ"],
+	lesson8: ["ਠਪ","ਟਪ","ਅੜ","ਏਕ","ਓਮ","ਔਕੜ","ਆਰੀ","ਈਰਖਾ","ਧੋਬੀ","ਆਖੇ","ਤੜ","ਫੜ","ਉਕਤ","ਏਕਤਾ","ਠਰ","ਝਾੜੂ","ਝਗੜਾ","ਭਰਾ","ਘੜਾ","ਘੜੀ","ਛਟ","ਥੂੜ","ਖੜਕ","ਰੜਕ","ਰਬੜ","ਔਰਤ","ਘਾਉ","ਥੈਲਾ","ਘਗਰ","ਊਜ","ਇਟ","ਪੁਰਖ","ਛਪਰ","ਇਤਰ","ਕੜਕ","ਇੰਞ","ਬਾਊ","ਬਾਈ","ਭੌਲਾ","ਧੀਰਜ","ਅਰਕ","ਕਾਰ","ਉਰਫ","ਰੋਕੜ","ਇਮਲੀ","ਧੰਨਵਾਦ","ਘੋੜਾ","ਢੋਲ","ਔਜਾਰ","ਆਦਮੀ","ਸਥਿਰ","ਸਥਾਨ","ਕਥਨ","ਖਿੜਕੀ","ਜਕੜ","ਧਰਤੀ","ਈਦ","ਊਰਜਾ","ਊਠ","ਢੂੰਡ","ਉਚਿਚਤਾ","ਅਸੀ","ਏਜੰਸੀ","ਇਮਤਿਹਾਨ","ਸੜਕ","ਘੇਰਦਾ","ਲੰਬਾਈ","ਸੁਭਾਅ","ਸੁਧੀਰ","ਧਮਾਕਾ","ਠੇਲਾ","ਓਕੜ","ਲੜਕੀ","ਅਨਮੋਲ","ਖਤਰਨਾਕ","ਆਦਤ","ਸੰਙ","ਪਿਘਲ","ਆਗਰਾ","ਈਨਾਮ","ਛੂਤਛਾਤ","ਖੰਡਰ","ਸੈਲੰਡਰ","ਪਦਾਰਥ","ਸੁਖਾਲਾ","ਈਕਾਈ","ਊਚਾਈ","ਢੋਲਕ","ਮਾਂ","ਛਾਂ","ਵਿਅਕਤੀ","ਏਥਿਕਸ","ਫੈਲਾਉ","ਉਬਾਲ","ਚੌਥੀ","ਜਾਂ","ਝਾਵਾਂ","ਇਟਾਂ","ਪੌਣ","ਪਾਣੀ","ਮੁਖਤਾਰ","ਅਫਵਾਹ","ਫੈਸਲਾ","ਠੰਡਕ","ਸ਼ੰਖ","ਨਮਕ","ਮਾਣਕ","ਲਕਸ਼","ਗਿਣਤੀ","ਸ਼ਲਗਮ","ਸ਼ੌਰ","ਯੂਨੀਕੋਡ","ਲਿਸ਼ਕਾਰਾ","ਨਿਰਮਾਣ","ਵਿਸ਼ਵਾਸ","ਉਂਗਲਾਂ","ਲੌਂਗ","ਪਹਿਚਾਣ","ਕਠਣਾਈ","ਦੁਗਣੀ","ਗੁਣਾ","ਸ਼ਹਿਦ","ਦਿਸ਼ਾ","ਹੋਸ਼","ਦਹਿਸ਼ਤ","ਬੁਰਸ਼","ਸ਼ਿਫਟ","ਸ਼ੁਧ","ਸਿਆਣਪ","ਇੰਜਣ","ਸ਼ਬਦ","ਸ਼ਰਧਾ","ਖੇਡਾਂ","ਸ਼ਕਤੀ","ਦੂਸ਼ਿਤ","ਸ਼ੁਰੂਆਤ","ਮਹਾਂਭਾਰਤ","ਜਾਂਚ","ਤਮਾਸ਼ਾ","ਇਸ਼ਨਾਨ"],
+    lesson9: ["ਹੜ੍ਹ","ਤਰ੍ਹਾਂ","ਉਨ੍ਹਾਂ","ਜਿਨ੍ਹਾਂ","ਪੜ੍ਹਦੇ","ਪੜ੍ਹਾਇਆ","ਪ੍ਰਕਾਰ","ਪ੍ਰਕਾਸ਼","ਪ੍ਰੰਤੂ","(ਗ੍ਰਹਿ)","ਪ੍ਰੀਤ","ਪ੍ਰਿਥਵੀ","ਕ੍ਰਿਸ਼ਨ","ਪ੍ਰਣਬ","ਪ੍ਰਤੀ","ਪ੍ਰਤੀ-ਸ਼ਤ","ਨਾਗ੍ਰਿਕ","ਪ੍ਰਬੰਧ","ਪ੍ਰਦਾਨ","ਗ੍ਰਹਿਸਤੀ","ਕ੍ਰਮਚਾਰੀ","ਘੱਟ","ਸੱਤ","ਅੱਠ","ਹੱਕ","ਹੱਦ","ਬੱਚਤ","(ਉੱਨਤ)","ਬੱਚਿਆ","ਮਨੁੱਖ","ਗੱਡੀ","ਮੱਦਦ","ਵਿੱਦਿਆ","ਪ੍ਰੱਚਲਤ","ਸ੍ਵਰ","ਪ੍ਰੇਮ","ਬਿਸ੍ਵ","(ਬਿਸ੍ਵੰਭਰ)","ਸ੍ਵੈਮਾਨ","ਸ੍ਵੀਕਾਰ","ਤ੍ਵ","ਪਰਮੇ-ਸ੍ਵਰ","ਸ੍ਵੈਜੀ-ਵਨੀ","ਧੱਬਾ","ਸੈੱਟ","ਅੜਿੱਕਾ","ਚੜ੍ਹਦਾ","ਤ੍ਰਿੰਞਣ","ਪ੍ਰੇਰਨਾ","ਪਵਿੱਤਰ","ਫੁੱਲ","ਪ੍ਰਭਾਵ","ਅਮ੍ਰਿੰਤਾ","ਉੱਥੇ","ਉੱਪਰ","ਗ੍ਰੰਥ","ਸੱਭਿਆਚਾਰ","ਸੱਤਿਆਗ੍ਰਹਿ"],
+    lesson10: ["ਜ਼ਹਾਜ","ਫ਼ਲ","ਖ਼ੁਸ਼","ਸਜ਼ਾ","ਗ਼ੁਲਾਮ","ਸਫ਼ਾਈ","ਜ਼ਿਕਰ","ਜ਼ੋਕਰ","ਲਿਸ਼ਕਾਰਾ","ੳਰਜਾ","ਜ਼ੂਸ","ੳਸਾਰ","ਜ਼ੋਰ","ਕਾਗਜ਼","ਜ਼ਫ਼ਰਨਾਮਾ","ਗ਼ੁਬਾਰਾ","ਜ਼ੰਜੀਰ","ਰੁਜ਼ਗਾਰ","ਅਖ਼ਬਾਰ","ਖ਼ਬਰਾਂ","ਸਬਜ਼ੀ","ੳਣਮੱਤ","ਸੂਫ਼ੀ","ਫ਼ਲਸਫ਼ੇ","ਨਜ਼ਰ","ਟੈਲੀਵਿਜ਼ਨ","ਫ਼ਸਲ","ਮਜ਼ਾਰ","ਖ਼ਰਗੋਸ਼","ਰਫ਼ਤਾਰ","ਜ਼ੁਰਾਬ","ੳਲਝਣ","ਮਜ਼ੂਮਨ","ਸਾਫ਼","ੳਲੰਬਾ"],
+    lesson11: ["੧੨੩੪੫","੦੯੮੭੬","੧੨੩੪੫","੦੯੮੭੬","੧੨੩੪੫","੦੯੮੭੬","੫੪੯੦੧","੨੩੬੧੮","੫੪੯੦੧","੯੫੩੦੪","੬੮੩੧੫","੪੦੫੧੭","੦੯੮੭੬","੫੪੯੦੧","੧੨੩੪੫","੬੮੩੧੫","੫੪੯੦੧","੨੩੬੧੮"],
+	lesson12:["ਅ","ਆ","ਇ","ਈ","ਉ","ਊ","ਏ","ਐ","ਓ","ਔ","ਕ","ਖ","ਗ","ਘ","ਙ","ਚ","ਛ","ਜ","ਝ","ਞ","ਟ","ਠ","ਡ","ਢ","ਣ","ਤ","ਥ","ਦ","ਧ","ਨ",
+"ਪ","ਫ","ਬ","ਭ","ਮ","ਯ","ਰ","ਲ","ਵ","ੜ","ਸ਼","ਸ","ਹ","ਖ਼","ਗ਼","ਜ਼","ਫ਼","ਲ਼"],
+    lesson13:["ਪਰ","ਕਰ","ਤਕ","ਚੋਰ","ਦੀਪ","ਮਕਾਨ","ਕਪ","ਹਦ","ਰਕਮ","ਚੰਦਾ","ਦਾਤਾ","ਹਾਜਰ","ਰੂਪ","ਕਿਰਨ","ਸਲਾਹ","ਵੋਟ","ਮਾਨ","ਨਾਲ","ਵੀ","ਵਿਚ","ਜਾਗਰ","ਕੌਰ","ਲਿਵਾਸ","ਮਾਨਵ","ਹੀਰਾ","ਮਹਾਨ","ਹੁਕਮ","ਵਿਚਾਰ","ਹਿੰਦ","ਵੀਰ","ਰੋਕ","ਰੇਤ","ਚੇਤ","ਗਤੀ","ਬਚੀ","ਦੀਪਕ","ਵੀਰਤਾ","ਪੰਜਾਬੀ","ਨੀਯਤ","ਬੁਲਟ","ਠਪ","ਟਪ","ਅੜ","ਏਕ","ਓਮ","ਉਕਤ","ਝਾੜੂ","ਭਰਾ","ਘੜਾ","ਘੜੀ","ਤੜ","ਫੜ","ਏਕਤਾ","ਠਰ","ਖੜਕ","ਰਬੜ","ਔਰਤ","ਘਾਉ","ਥੈਲਾ","ਘਗਰ","ਇਟ","ਪੁਰਖ","ਇਤਰ","ਕੜਕ","ਬਾਊ","ਬਾਈ","ਭੌਲਾ","ਧੀਰਜ","ਧੰਨਵਾਦ","ਆਦਮੀ","ਔਕੜ","ਆਰੀ","ਈਰਖਾ","ਧੋਬੀ","ਆਖੇ","ਆੜੂ","ਝਗੜਾ","ਢਾਕਾ","ਐਨਕ","ਘੋੜਾ","ਘੇਰਦਾ","ਲੰਬਾਈ","ਸੁਭਾਅ","ਸੁਧੀਰ","ਧਮਾਕਾ","ਆਦਤ","ਪਿਘਲ","ਈਨਾਮ","ਊਚਾਈ","ਪਾਣੀ",
+"ਮਾਂ","ਛਾਂ","ਸ਼ੰਖ","ਨਮਕ","ਮਾਣਕ","ਲਕਸ਼","ਗਿਣਤੀ","ਸ਼ਲਗਮ","ਸ਼ੌਰ","ਯੂਨੀਕੋਡ","ਹੜ੍ਹ","ਤਰ੍ਹਾਂ","ਉਨ੍ਹਾਂ","ਜਿਨ੍ਹਾਂ","ਪੜ੍ਹਦੇ","ਪ੍ਰਕਾਰ","ਪ੍ਰਕਾਸ਼","ਪ੍ਰਤੀ","ਨਾਗ੍ਰਿਕ","ਪ੍ਰਬੰਧ","ਘੱਟ","ਸੱਤ","ਅੱਠ","ਹੱਕ","ਮਨੁੱਖ","ਗੱਡੀ","ਮੱਦਦ","ਵਿੱਦਿਆ","ਪ੍ਰੇਮ","ਸ੍ਵੈਮਾਨ","ਜ਼ਹਾਜ","ਫ਼ਲ","ਖ਼ੁਸ਼","ਸਜ਼ਾ","ਗ਼ੁਲਾਮ","ਜ਼ਿਕਰ","ਜ਼ੋਰ","ਕਾਗਜ਼","ਅਖ਼ਬਾਰ","ਖ਼ਬਰਾਂ","ਸਬਜ਼ੀ","ਨਜ਼ਰ","ਟੈਲੀਵਿਜ਼ਨ","ਫ਼ਸਲ","ਮਜ਼ਾਰ","ਰਫ਼ਤਾਰ","ਜ਼ੁਰਾਬ","ਸਾਫ਼","ੳਲੰਬਾ"	]  };
+
+	const lessonWordCounts = {
+	  lesson1: 120,
+	  lesson2: 120,
+	  lesson3: 120,
+	  lesson4: 100,
+	  lesson5: 90,   // numbers
+	  lesson6: 120,   // symbols
+	  lesson7: 90,
+	  lesson8: 100,
+	  lesson9: 120,
+	  lesson10: 120,
+	  lesson11: 110,
+	  lesson12: 150,
+		lesson13: 150
+	};
+	  // ---------- DOM references ----------
+	  const lessonGrid = document.getElementById('lessonGrid');
+	  const lessonsSection = document.getElementById('lessonsSection');
+	  const testArea = document.getElementById('testArea');
+	  const backToLessons = document.getElementById('backToLessons');
+	  const lessonTitle = document.getElementById('lessonTitle');
+	  const textDisplay = document.getElementById('textDisplay');
+	  const correctCountEl = document.getElementById('correctCount');
+	  const wrongCountEl = document.getElementById('wrongCount');
+	  const accuracyEl = document.getElementById('accuracy');
+	  const wpmEl = document.getElementById('wpm');
+	  const timeEl = document.getElementById('time');
+	  const resultsBox = document.getElementById('results');
+	  const finalSummary = document.getElementById('finalSummary');
+	  const restartBtn = document.getElementById('restartBtn');
+	  const newTextBtn = document.getElementById('newTextBtn');
+
+	  // ---------- state ----------
+	  let errorMap = {}; // { a: 3, b: 1, 'e': 5 }
+	  let currentLesson = null;
+	  let currentString = "";
+	  let charSpans = []; // NodeList of char spans
+	  let cursor = 0; // char index
+	  let startedAt = 0;
+	  let timerId = null;
+	  let correctChars = 0;
+	  let wrongHits = 0;
+	  let running = false;
+
+	  // ---------- init: populate lesson grid ----------
+	  function makeLessonButton(key, idx){
+		const btn = document.createElement('button');
+		btn.className = 'lessonBtn';
+		btn.innerHTML = `<h3>Lesson ${idx}</h3><p>${key.replace('lesson','').trim()}</p>`;
+		btn.addEventListener('click', () => startLesson(key));
+		return btn;
+	  }
+	const lessonLabels = {
+		lesson1: "1. ਹੋਮ ਲਾਈਨ",
+		lesson2: "2. ਉੱਪਰਲੀ ਲਾਈਨ",
+		lesson3: "3. ਹੇਠਲੀ ਲਾਈਨ",
+		lesson4: "4. ਹੋਮ, ਉੱਪਰਲੀ ਤੇ ਹੇਠਲੀ ਲਾਈਨ ਸ਼ਬਦ",
+		lesson5: "5. ਸ਼ਿਫਟ ਬਟਨ ਨਾਲ ਹੋਮ ਲਾਈਨ",
+		lesson6: "6. ਸ਼ਿਫਟ ਬਟਨ ਨਾਲ ਉੱਪਰਲੀ ਲਾਈਨ",
+		lesson7: "7. ਸ਼ਿਫਟ ਬਟਨ ਨਾਲ ਹੇਠਲੀ ਲਾਈਨ",
+		lesson8: "8. ਹੋਮ,ਉੱਪਰਲੀ ਤੇ ਹੇਠਲੀ ਲਾਈਨ ਸ਼ਿਫਟ ਨਾਲ",
+		lesson9:  "9. ਪੈਰੀ ਅੱਖਰਾਂ ਵਾਲੇ ਸ਼ਬਦ",
+		lesson10: "10. ਪੈਰੀ ਬਿੰਦੀ ਵਾਲੇ ਸ਼ਬਦ",
+		lesson11: "11. ਨੰਬਰ ਲਾਈਨ",
+		lesson12: "12. ਪੰਜਾਬੀ ਵਰਣਮਾਲਾ",
+		lesson13: "13. ਸਾਰੀਆਂ ਲਾਈਨਾਂ ਦੇ ਸ਼ਬਦਾਂ ਦੀ ਟਾਈਪਿੰਗ ਪ੍ਰੈਕਟਿਸ"
+		
+	};
+	(function fillGrid(){
+		const keys = Object.keys(lessons);
+		keys.forEach((k,i) => {
+			const btn = document.createElement('div');
+			btn.className = 'lessonBtn';
+
+			btn.innerHTML = `
+				<h3>${lessonLabels[k] || "Lesson " + (i+1)}</h3>
+				<p>${lessons[k].slice(0,5).join(', ')}...</p>
+			`;
+
+			btn.addEventListener('click', () => startLesson(k));
+			lessonGrid.appendChild(btn);
+		});
+	})();
+
+	  // ---------- generate random test string ----------
+	  function generateRandomText(lessonKey, wordCount = 60){
+		const pool = lessons[lessonKey] || lessons.lesson1;
+		const arr = [];
+		for(let i=0;i<wordCount;i++){
+		  const w = pool[Math.floor(Math.random()*pool.length)];
+		  arr.push(w);
+		}
+		return arr.join(' ');
+	  }
+
+	  // ---------- render text into spans (per character) ----------
+	  function renderText(str){
+		textDisplay.innerHTML = '';
+		charSpans = [];
+		for(let i=0;i<str.length;i++){
+		  const ch = str[i];
+		  const span = document.createElement('span');
+		  span.className = 'ch';
+		  // styling for spaces
+		  if(ch === ' ') { span.classList.add('space'); span.textContent = ' '; } // show a visible dot for spaces
+		  else span.textContent = ch;
+		  textDisplay.appendChild(span);
+		  charSpans.push({span, char: ch});
+		}
+		// set first as current
+		cursor = 0;
+		updateVisuals();
+	  }
+
+	  // ---------- visuals update ----------
+	  function updateVisuals(){
+		charSpans.forEach((obj, idx) => {
+		  obj.span.classList.remove('current','correct','incorrect','flash');
+		  // show actual space char for readability
+		  if(obj.char === ' '){
+			obj.span.textContent = ' ';
+		  } else obj.span.textContent = obj.char;
+		});
+		if(cursor < charSpans.length){
+		  const c = charSpans[cursor].span;
+		  c.classList.add('current');
+		  // ensure focused on display so user knows where to type
+		  textDisplay.scrollLeft = Math.max(0, c.offsetLeft - 20);
+		}
+	  }
+
+	  // ---------- start lesson ----------
+function startLesson(lessonKey){
+  currentLesson = lessonKey;
+  lessonTitle.textContent = lessonLabels[lessonKey] || lessonKey;
+
+  lessonsSection.style.display = 'none';
+  testArea.style.display = 'block';
+
+  // ✅ HIDE EXTRA SECTIONS
+  document.getElementById("extraSections").style.display = "none";
+
+  resultsBox.style.display = 'none';
+  resetStats();
+
+  const wordCount = lessonWordCounts[lessonKey] || 80;
+  currentString = generateRandomText(lessonKey, wordCount);
+
+  renderText(currentString);
+  textDisplay.focus();
+}
+
+	  // ---------- reset stats ----------
+	  function resetStats(){
+		stopTimer();
+		startedAt = 0;
+		errorMap = {};
+		correctChars = 0; wrongHits = 0; cursor = 0; running = false;
+		correctCountEl.textContent = '0';
+		wrongCountEl.textContent = '0';
+		accuracyEl.textContent = '0%';
+		wpmEl.textContent = '0';
+		timeEl.textContent = '00:00';
+		finalSummary.textContent = 'Complete the test to see results here.';
+	  }
+
+	  // ---------- timer ----------
+	  function startTimer(){
+		if(startedAt) return;
+		startedAt = Date.now();
+		running = true;
+		timerId = setInterval(updateTimer, 500);
+	  }
+	  function stopTimer(){
+		if(timerId) { clearInterval(timerId); timerId = null; }
+		running = false;
+	  }
+	  function updateTimer(){
+		if(!startedAt) return;
+		const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+		const mm = String(Math.floor(elapsed/60)).padStart(2,'0');
+		const ss = String(elapsed%60).padStart(2,'0');
+		timeEl.textContent = `${mm}:${ss}`;
+		updateWPM();
+	  }
+
+	  // ---------- WPM & accuracy ----------
+	  function updateWPM(){
+		const elapsedMinutes = Math.max( (Date.now() - startedAt) / 60000, 1/60 );
+		const wpm = Math.round((correctChars / 5) / elapsedMinutes);
+		wpmEl.textContent = String(wpm);
+	  }
+	  function updateAccuracy(){
+		const totalHits = correctChars + wrongHits;
+		const acc = totalHits ? Math.round((correctChars / totalHits) * 100) : 0;
+		accuracyEl.textContent = acc + '%';
+	  }
+
+	  // ---------- key handling (letter-by-letter enforcement) ----------
+	  window.addEventListener('keydown', (e) => {
+			const ignoreKeys = [
+		  'Shift','Control','Alt','Meta','CapsLock','Tab',
+		  'ContextMenu','Escape'
+		];
+		if (ignoreKeys.includes(e.key) || e.key.startsWith('Arrow')) {
+		  return; // do nothing
+		}
+		 if(e.key === 'Backspace'){
+		  e.preventDefault();
+		  handleBackspace();
+		  return;
+		}
+		// if test area not open or no text, ignore
+		if(testArea.style.display !== 'block' || !charSpans.length) return;
+
+		// ignore modifier combos
+		if(e.ctrlKey || e.altKey || e.metaKey||e.shift) return;
+
+		// allow back to go back
+		if(e.key === 'Backspace'){
+		  e.preventDefault();
+		  if(cursor === 0) return;
+		  // if current wasn't finished, just move back
+		  // remove any marks on previous char
+		  const prev = charSpans[cursor-1];
+		  prev.span.classList.remove('correct','incorrect','flash');
+		  cursor = cursor - 1;
+		  // if the previous char was counted previously as correct, reduce correct count
+		  // (we'll deduce by checking class)
+		  // but better to recompute counts from DOM each time:
+		  recomputeCountsFromDOM();
+		  updateVisuals();
+		  return;
+		}
+
+		// if already completed, ignore other keys
+		if(cursor >= charSpans.length) return;
+
+		// start timer on first valid key press (only when not started)
+		if(!startedAt && e.key.length === 1){
+		  startTimer();
+		}
+
+		// expected char
+		const expected = charSpans[cursor].char;
+		// interpret enter as newline if exists
+		let pressed = e.key;
+		// convert ' ' (space) - when user presses space key, e.key === ' '
+		// normalize quotes and dashes? We keep it simple.
+		// For case-insensitive letters we accept either case:
+		// STRICT case-sensitive matching for letters
+	if (expected.length === 1 && /[a-zA-Z]/.test(expected)) {
+		if (pressed === expected) {
+			acceptCorrect();
+		} else {
+			markWrong();
+		}
+		e.preventDefault();
+		return;
+	} else {
+		  // non-letter characters (spaces, punctuation, numbers)
+		  // For spaces, we expect space key
+		  if(expected === ' '){
+			if(pressed === ' ') { acceptCorrect(); e.preventDefault(); return; }
+			else { markWrong(); e.preventDefault(); return; }
+		  } else {
+			// other cases: accept exact match (case-sensitive)
+			if(pressed === expected){ acceptCorrect(); e.preventDefault(); return; }
+			// also accept case-insensitive for letters in other unicode?
+			if(pressed.length === 1 && pressed.toLowerCase() === expected.toLowerCase()){
+			  acceptCorrect(); e.preventDefault(); return;
+			}
+			markWrong();
+			e.preventDefault();
+			return;
+		  }
+		}
+	  });
+
+	  function acceptCorrect(){
+		// mark current as correct, advance cursor
+		const obj = charSpans[cursor];
+		obj.span.classList.remove('current','flash','incorrect');
+		obj.span.classList.add('correct');
+		cursor++;
+		correctChars++;
+		correctCountEl.textContent = String(correctChars);
+		updateAccuracy();
+		updateWPM();
+		// if completed
+		if(cursor >= charSpans.length){
+		  // finish: stop timer and show results
+		  stopTimer();
+		  showFinalResults();
+		} else {
+		  updateVisuals();
+		}
+	  }
+
+function markWrong(){
+  wrongHits++;
+  wrongCountEl.textContent = String(wrongHits);
+  updateAccuracy();
+
+  const expected = charSpans[cursor].char;
+
+  // track error
+  if(expected){
+    errorMap[expected] = (errorMap[expected] || 0) + 1;
+  }
+
+  // flash UI
+  const obj = charSpans[cursor];
+  obj.span.classList.remove('flash');
+  void obj.span.offsetWidth;
+  obj.span.classList.add('flash','incorrect');
+}
+
+	  function recomputeCountsFromDOM(){
+		// useful after backspace: recompute counts
+		correctChars = 0; wrongHits = 0;
+		charSpans.forEach(obj => {
+		  if(obj.span.classList.contains('correct')) correctChars++;
+		  // incorrect class represents last wrong press but user didn't advance; we count wrongHits separately
+		});
+		// wrongHits remains whatever was tracked (we keep count since it's attempts)
+		correctCountEl.textContent = String(correctChars);
+		wrongCountEl.textContent = String(wrongHits);
+		updateAccuracy();
+		updateWPM();
+	  }
+
+	  // ---------- show final results (in bottom panel) ----------
+	  function showFinalResults(){
+		// compute final metrics
+		const elapsedSeconds = Math.max(1, Math.floor((Date.now() - startedAt) / 1000));
+		const minutes = elapsedSeconds / 60;
+		const wpm = Math.round((correctChars / 5) / Math.max(minutes, 1/60));
+		const totalHits = correctChars + wrongHits;
+		const accuracy = totalHits ? Math.round((correctChars / totalHits) * 100) : 0;
+			let errorHTML = "";
+
+const sortedErrors = Object.entries(errorMap)
+  .sort((a,b) => b[1] - a[1]);
+
+if(sortedErrors.length){
+  errorHTML = "<br><br><strong>Most Mistyped Characters:</strong><br>";
+  sortedErrors.forEach(([char,count]) => {
+    const displayChar = char === " " ? "[space]" : char;
+    errorHTML += `${displayChar} → ${count} times<br>`;
+  });
+}
+			
+			
+
+	finalSummary.innerHTML = `
+  <strong>Completed in ${formatTime(elapsedSeconds)} — WPM: ${wpm} — Accuracy: ${accuracy}%</strong>
+  <br>
+  Correct characters: ${correctChars} &nbsp; • &nbsp; Wrong hits: ${wrongHits}
+  ${errorHTML}
+`;
+		resultsBox.style.display = 'block';
+		// final update of stat boxes
+		wpmEl.textContent = String(wpm);
+		accuracyEl.textContent = accuracy + '%';
+	  }
+
+	  // ---------- utilities ----------
+	  function formatTime(totalSeconds){
+		const mm = String(Math.floor(totalSeconds/60)).padStart(2,'0');
+		const ss = String(totalSeconds%60).padStart(2,'0');
+		return `${mm}:${ss}`;
+	  }
+
+	  // ---------- UI actions ----------
+	backToLessons.addEventListener('click', () => {
+  testArea.style.display = 'none';
+  lessonsSection.style.display = 'block';
+
+  // ✅ SHOW AGAIN
+  document.getElementById("extraSections").style.display = "block";
+
+  resetStats();
+});
+
+	restartBtn.addEventListener('click', () => {
+  resetStats();
+  const wordCount = lessonWordCounts[currentLesson] || 80;
+  currentString = generateRandomText(currentLesson, wordCount);
+  renderText(currentString);
+  resultsBox.style.display = 'none';
+  textDisplay.focus();
+});
+
+	newTextBtn.addEventListener('click', () => {
+  const wordCount = lessonWordCounts[currentLesson] || 80;
+  currentString = generateRandomText(currentLesson, wordCount);
+  renderText(currentString);
+  resetStats();
+  resultsBox.style.display = 'none';
+  textDisplay.focus();
+});
+
+	  // focus clickable textDisplay (so user sees cursor area)
+	  textDisplay.addEventListener('click', () => textDisplay.focus());
+
+	  // prevent selection & copy while typing to keep strictness (optional)
+	  textDisplay.addEventListener('selectstart', (e) => e.preventDefault());
+
+	  // initial accessibility focus
+	  setTimeout(()=> {
+		const firstBtn = lessonGrid.querySelector('.lessonBtn');
+		if(firstBtn) firstBtn.setAttribute('tabindex','0');
+	  }, 200);
+
+	})();
+
+		const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+	fullscreenBtn.addEventListener('click', () => {
+	  if (!document.fullscreenElement) {
+		// Enter full screen
+		document.documentElement.requestFullscreen().catch(err => {
+		  alert(`Error enabling full-screen mode: ${err.message}`);
+		});
+		fullscreenBtn.textContent = "Exit Full Screen";
+	  } else {
+		// Exit full screen
+		document.exitFullscreen();
+		fullscreenBtn.textContent = "Full Screen";
+	  }
+	});
+
+
+
+	</script>
+		 </div>
+		
+
+	</body>
+	</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3468699928896150"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+	<meta name="google-adsense-account" content="ca-pub-3468699928896150">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smartech Education</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ====== PAGE LAYOUT ====== */
+body {
+  font-family: 'Bookman Old Style', serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  color: #222;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  background: #00295f;
+  padding: 10px 20px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  margin-right: 8px;
+}
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-size: 16px;
+  padding: 6px 0px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+nav ul li a:hover {
+  background: white;
+  color: #00295f;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.header img {
+  height: 60px;
+}
+
+/* ====== INTRO SECTION ====== */
+#exercises-intro {
+  text-align: center;
+  padding: 10px 10% 30px;
+  background: linear-gradient(to right, #fff, #f9f8f6);
+}
+#exercises-intro h1 {
+  font-size: 2.5rem;
+  color: #000;
+}
+#exercises-intro p {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 700px;
+  margin: 10px auto;
+  line-height: 1.6;
+}
+.highlight {
+  color: #00295f;
+}
+
+/* ====== EXERCISES SECTION ====== */
+.exercise-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 90%;
+  margin: 40px auto;
+}
+
+.exercise-box {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 1s ease;
+}
+.exercise-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.exercise-box h2 {
+  color: #00295f;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+}
+
+.exercise-btn {
+  background: #00295f;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 70px;
+  margin: 10px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exercise-btn:hover {
+  background: black;
+  color: white;
+  transform: translateY(-3px);
+}
+
+#exerciseListEnglish, 
+#exerciseListPunjabi {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 600px) {
+  .exercise-btn {
+    width: 100%;
+    margin: 6px 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- SECURITY BLOCK -->
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12') e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') e.preventDefault();
+    if (e.ctrlKey && e.key === 'u') e.preventDefault();
+    if (e.ctrlKey && e.key === 's') e.preventDefault();
+});
+</script>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sidebar.css">
+
+<script src="sidebar.js"></script>
+</head>
+<body>
+<div class="main">
+
+<button id="menuToggle">☰</button>
+<!-- HEADER -->
+
+
+<section id="exercises-intro">
+
+<h1><span class="highlight">Special Long Practice Exercises</span></h1>
+<p></p>
+</section>
+
+<!-- EXERCISES SECTION -->
+<div class="exercise-container">
+  <div class="exercise-box">
+    <h2>English Long Paragraph Practice Exercises</h2>
+	<center><h3>SSC,Punjab Haryana High Court, PPSC, RRB etc. </h3></center>
+    <div id="exerciseListEnglish"></div>
+  </div>
+
+
+</div>
+
+<!-- SCRIPT: LOAD EXERCISES -->
+<script>
+
+
+// ----- STATIC ENGLISH EXERCISES -----
+
+const exercisesEnglish = [
+{
+title:"Exercise 1",
+text:`No treatment on the market today has been proved to slow human aging. But one intervention consumption of a low-calorie yet nutritionally balanced diet works incredibly well in a broad range of animals increasing longevity and prolonging good health. Those findings suggest that Caloric restriction could delay aging and increase longevity in humans. But what if someone could create a pill that mimicked the physiological effects of eating less without actually forcing people to eat less a &apos;Caloric-restriction mimetic&apos; The best-studied candidate for a Caloric-restriction mimetic 2DG (2-deoxy-D-glucose) works by interfering with the way Cells process glucose. It has proved toxic at some doses in animals and so cannot be used in humans. But it has demonstrated that chemicals can replicate the effects of Caloric restriction; the trick is finding the right one. Cells use the glucose from food to generate ATP (Adenosine Triphosphate) the molecule that powers many activities in the body. By limiting food intake Caloric restriction minimizes the amount of glucose entering cells and decreases ATP generation. When 2DG is administered to animals that eat normally glucose reaches cells in Abundance but the drug prevents most of it from being processed and thus reduces ATP Synthesis. Researchers have proposed several explanations for why interruption of glucose processing and ATP production might retard aging. One possibility relates to the ATP-making machinery&apos;s emission of free radicals which are thought to contribute to aging and to such age-related diseases as cancer by damaging cells. Reduced operation of the machinery should limit their production and thereby constrain the damage. Another hypothesis suggests that decreased processing of glucose could indicate to cells that food is scarce and induce them to shift into an anti-aging mode that emphasizes preservation of the Organism over such &apos;luxuries&apos; as growth and reproduction.
+`
+},
+
+{
+title:"Exercise 2",
+text:`Marie Curie is probably the most famous Woman scientist who has ever lived and her achievements continue to inspire people around the World. Born Maria Sklodowska in Poland in 1867, she grew up in a family that valued education even though they faced many financial difficulties. She is best known for her groundbreaking work on radioactivity a field of science that she herself helped to name and develop. Because of her Extraordinary contributions she was awarded the Nobel Prize twice an achievement that very few scientists have ever accomplished. Together with her husband Pierre Curie and the physicist Henri Becquerel, she received the 1903 Nobel Prize for Physics for their joint research into radiation phenomena. Later in 1911, she became the sole winner of the Nobel Prize for Chemistry for discovering two new elements polonium and radium and for isolating them for the first time. Through these accomplishments she became the first woman ever to win a Nobel Prize and set a powerful example for women in Science. From Childhood Marie was remarkable for her prodigious memory and strong determination. At the age of 16, she won a gold medal upon completing her secondary education showing her exceptional academic ability because her father lost his savings through poor investments Marie was unable to continue her education immediately and had to work as a teacher to support herself and her family. Despite these Challenges she remained committed to learning and self-improvement. From her modest earnings she helped finance her sister Bronia&apos;s medical studies in Paris, agreeing that Bronia would later help her in return. This promise was eventually fulfilled and in 1891 Marie moved to Paris to begin her studies at the Sorbonne, the University of Paris. Life as a student was extremely difficult for her; she often worked late into the night and Survived on little more than bread, butter and tea. 
+`
+},
+
+{
+title:"Exercise 3",
+text:`Some years ago, when several theoretical physicists, principally Dirk Helbing and Boris Kerner of Stuttgart, Germany, began publishing papers on traffic flow in publications normally read by traffic engineers they were clearly working outside their usual sphere of Investigation. They had noticed that if they simulated the movement of Vehicles on a highway using the equations that describe how the molecules of a gas move some very Strange results emerged. Of course vehicles do not behave exactly like gas molecules: for example drivers try to avoid Collisions by slowing down when they get too near another Vehicle whereas gas molecules have no such concern the physicists modified the equations to take the differences into account and the overall description of traffic as a flowing gas has proved to be a very good one; the moving-gas model of traffic reproduces many phenomena seen in real-WORLD traffic. The Strangest thing that came out of these equations however was the implication that congestion can arise completely spontaneously no external causes are necessary. Vehicles can be flowing freely along at a density still well below what the road can handle and then suddenly gel into a slow-moving ooze. Under the right conditions a brief and local fluctuation in the speed or the distance between vehicles is all it takes to trigger a system-wide breakdown that persists for hours. In fact the physicists&apos; analysis suggested such Spontaneous breakdowns in traffic flow probably occur quite frequently on highways.
+`
+},
+
+{
+title:"Exercise 4",
+text:`Research into traffic control is generally centered in Civil Engineering Departments and here the theories of the physicists have been greeted with some Skepticism. Civil engineers favor a practical approach to problems and believe traffic congestion is the result of poor road construction (two lanes becoming one lane or dangerous curves) which Constricts the flow of traffic. Engineers questioned how well the physicists&apos; theoretical results relate to traffic in the real World. Indeed some Engineering researchers questioned whether elaborate Chaos-theory Interpretations are needed at all since at least some of the traffic phenomena the physicists&apos; theories predicted seemed to be similar to observations that had been appearing in traffic engineering literature under other names for years; observations which had Straightforward cause-and-effect explanations. James Banks a professor of Civil and Environmental Engineering at San Diego State University in the US suggested that a Sudden Slowdown in traffic may have less to do with chaos theory than with driver psychology. As traffic gets heavier and the passing lane gets more crowded aggressive drivers move to other lanes to try to pass which also tends to even out the speed between lanes. He also felt that another leveling force is that when a driver in a fast lane brakes a little to maintain a safe distance between vehicles the Shock wave travels back much more rapidly than it would in the other slower lanes because each following driver has to react more quickly as a road becomes Congested, the faster moving traffic is the first to slow down
+`
+},
+
+{
+title:"Exercise 5",
+text:`Most people on either side of the debate do accept that the ancient Winged creature known as Archaeopteryx is an ancestor of today&apos;s birds. This is in spite of the fact that its form is distinctly non-bird-like with a long bony tail and teeth instead of a beak. The &apos;birds-aredinosaurs&apos; supporters contend that if clearly-preserved feathers had not been found alongside two of the seven Archaeopteryx Specimens it would probably have been identified as a small dinosaur. Archaeopteryx does have some bird-like features such as a furcula and bird-like feet that suggest that it is too bird-like to be considered a dinosaur. Over the last few decades several dinosaurs with bird-like features and primitive birds with dinosaur-like features have been found in several countries connecting Archaeopteryx back to dinosaurs and forwards to modern birds. Sinosauropteryx excavated from 130-million-year-old rocks in northeast China is one example. It is a dinosaur Skeleton surrounded by a halo of fuzz thought to be primitive feathers. And a reassessment of other dinosaurs reveals such bird-like features as hollow bones and a foot with three functional toes characteristics that appeared over 50 million years before Archaeopteryx took to the air. And Rahonavis a primitive bird from Madagascar is more bird-like than yet retains some distinctive dinosaur features including a long and vicious claw at the end of its wing. Over a century since Huxley&apos;s discovery it seems that cladistics may have finally settled the &apos;dino-bird&apos; debate.
+`
+},
+{
+title:"Exercise 6",
+text:`One issue with plastics is that they don&apos;t biodegrade and instead keep breaking down into smaller pieces while still remaining plastic. Fish and other marine life eat these tiny bits of plastic which can disrupt a number of Biological Systems. Some of these fish species are then consumed by humans. Because the Great Pacific garbage patch contains such small pieces of plastic and most of the plastic is below the Surface of the Ocean it is not easily visible with the naked eye and it is difficult to estimate its size. Some have theorized the patch is as big as or bigger than the US state of Texas, while others note that the Idea of a patch of garbage is really a misnomer as there are Concentrations of trash throughout the world&apos;s oceans. Trash from other World regions also washes up along the shores of the Pacific islands. Kamilo Beach in Hawaii is the site of a significant amount of plastic that has washed ashore from the Great Pacific garbage patch so much so that the area has been nicknamed Plastic Beach. Though the shoreline looks sandy 90 percent of it is actually bits of plastic and you would have to dig down at least one foot to reach grains of sand. Plastic trash litters many of the Shorelines of the Pacific islands presenting a hazard for marine life and a management and Cleanup Challenge since debris often comes from thousands of miles away It is changes in global climate, however that pose the most sev ere environmental threat to Oceania. For many of the world&apos;s regions changes in climate are viewed as hypothetical. Hurricanes might increase in intensity. The risk of fire might increase. Changes in bird migrations in Europe and North America to shifts in global fish stocks have already been linked to increases in global temperature but with little direct effect on the human populations of these regions
+
+`
+},
+{
+title:"Exercise 7",
+text:`The Human settlement of Oceania from the earliest migrations to European Colonization has reshaped the physical landscape of this region. Environmental Degradation disturbances to resources like air land and wate is a serious concern as economic growth often comes at the expense of environmental sustainability. In Australia for example wide Stretches of previously Sparsely Inhabited Outback have become grazing lands. In Papua New Guinea illegal logging has contributed to significant deforestation. Pollution from dairying in New Zealand has led to high levels of water pollution. Invasive Species have also had significant environmental impacts in a region that has been otherwise relatively Isolated. Australia has adopted a System of Strict Quarantine in an attempt to limit damage from non-native plants and animals. The Country currently spends around $4 billion yearly in invasive weed management alone. Cats have been banned in parts of New Zealand where they pose a threat to local bird species. Rats brought by early European ships have presented a significant problem for many islands of the Pacific, where they kill other plants and animals and also spread disease. Offshore invasive fish and algae species have damaged Fragile Ocean Ecosystems. In addition to local pollution concerns human settlement of other World regions has contributed to pollution in the Pacific Ocean. Worldwide there are five main ocean gyres large Systems of rotating Ocean Currents. In the northern Pacific Ocean, one gyre has very high concentrations of trash and plastics carried to the area by ocean currents. 
+
+`
+},
+{
+title:"Exercise 8",
+text:`It can take a Photon as long as 50 million years to travel all the way through the Radiative Zone. Surrounding the radiative zone is the convection zone. Here hot material from near the Sun&apos;s center rises cools at the Surface and then plunges back downward to receive more heat from the Radiative Zone. This movement helps to create Solar Flares and Sunspots. These first three layers make up what we would actually call &quot;the sun&quot;. The next three layers make up the sun&apos;s atmosphere. Of course there are no solid layers to any part of the Sun, so these boundaries are Fuzzy and Indistinct. The Visible surface of the sun is known as the Photosphere. This is the region of the sun that emits sunlight. It&apos;s also one of the coolest layers of the Sun only about 6700 degree Celsius. Looking at a photograph of the sun&apos;s surface you can see that it has several different Colors: Oranges, yellow and reds giving it a grainy appearance. We cannot see this when we glance quickly at the Sun as our eyes can&apos;t focus that quickly and the Sun is too bright for us to look at for more than a brief moment. Looking at the Sun for any length of time can cause blindness so don&apos;t try it Sunlight is emitted from the sun&apos;s photosphere. A Fraction of the light that travels from the sun reaches Earth. It travels as light in a range of Wavelengths including visible light Ultraviolet and Infrared radiation. Visible light is all the light we can see with our eyes. We can&apos;t see ultraviolet or infrared radiation, but their effects can still be detected. For example Sunburn is caused by Ultraviolet radiation when you spend too much time in the Sun.
+
+`
+},
+{
+title:"Exercise 9",
+text:`
+`
+},
+{
+title:"Exercise 10",
+text:`Consider the Earth, the Moon and all the other planets in our Solar System. Think about the mass that all those objects must have when they are all added together. Counter-Intuitively added all together they account for only 0.2% of the total mass of the Solar System. The Sun makes up the remaining 99.8% of all the mass in the Solar System! The Sun is the Center of the solar system and the largest object in the solar system. Our sun is a star that provides light and heat and supports almost all life on Earth. The Sun is a sphere, but unlike the earth and the moon it is not solid. Most atoms in the sun exist as plasma or a fourth state of matter made up of Superheated gas with an electrical charge. Our Sun consists almost entirely of the elements Hydrogen and Helium and because the Sun is not solid it does not have a defined outer boundary. It does however have a definite Internal structure. There are several identifiable layers of the Sun: The Core is the Innermost or central layer of the Sun. The Core is plasma but moves similarly to a gas. Its temperature is around 27 million degrees Celsius. In the Core nuclear reactions combine hydrogen atoms to form Helium releasing vast amounts of energy in the process. The Energy released then begins to move outward towards the outer layers of the Sun. Just outside the Core is the Radiative Zone which has a temperature of about 7 million degrees Celsius. The Energy released in the core travels extremely slowly through the Radiative Zone. Particles of light called Photons can only travel a few Millimeters before they hit another particle in the Sun are absorbed and then released again.
+
+`
+}
+];
+
+
+// ----- RENDER EXERCISES -----
+
+function renderExercises() {
+
+const container = document.getElementById("exerciseListEnglish");
+
+container.innerHTML = exercisesEnglish.map((ex,i)=>`
+<button class="exercise-btn"
+onclick="startTypingTest(${i})">
+ ${ex.title}
+</button>
+`).join("");
+
+}
+
+
+// ----- START TEST -----
+
+function startTypingTest(index){
+
+const selectedExercise = exercisesEnglish[index];
+
+localStorage.setItem("selectedExerciseText", selectedExercise.text);
+
+localStorage.setItem("selectedExerciseLanguage","English");
+
+window.location.href = "paragraph.html";
+
+}
+
+
+// Load buttons
+renderExercises();
+
+</script>
+
+
+
+
+</div>
+</body>
+</html>
+
+
+
+
